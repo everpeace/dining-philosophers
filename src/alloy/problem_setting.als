@@ -1,4 +1,4 @@
-module problem_setting
+module dining_philosophers/problem_setting
 
 sig Philosopher { 
 	disj leftFork, rightFork: one Fork,
@@ -10,8 +10,8 @@ sig Fork {
 }
 
 fact ProblemSetting {
-	#Philosopher > 1 
-	#Fork > 1 
+	#Philosopher > 2 
+	#Fork > 2
 	#Philosopher = #Fork
 	--fork and philosophers are set properly
 	(all p: Philosopher | p.leftFork = p.left.rightFork and p.rightFork = p.right.leftFork )
@@ -24,15 +24,15 @@ fact ProblemSetting {
 -- Global State
 sig State { 
 	owned: Fork -> lone Philosopher
+}{
+	-- each fork is owned by only their neighbors.
+	all f:Fork | owned[f] in f.(left+right)
 }
-fact forkIsOwnedOnlyByThereNeighbors {
-	all s: State | all f: Fork | s.owned[f] in f.(left +right)
-}
-
 -- predicates for forks
 pred free ( s: State, f: Fork ) {
 	no s.owned [ f ]
 }
+
 -- predicate for philosophers
 pred eating ( s: State, p: Philosopher ) {
 	p  = s.owned[p.rightFork] and p =  s.owned[p.leftFork]

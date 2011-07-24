@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<alloy>
+
+<view hidePrivate="no" hideMeta="no">
+
+<projection> <type name="env/State"/> </projection>
+
+<defaultnode/>
+
+<defaultedge style="Dotted" visible="no"/>
+
+<node>
+   <type name="Int"/>
+   <type name="String"/>
+   <type name="univ"/>
+   <type name="env/Fork"/>
+   <type name="env/Philosopher"/>
+   <type name="env/State"/>
+   <type name="seq/Int"/>
+   <set name="$noDeadLock_s" type="env/State"/>
+   <set name="First" type="ordering/Ord"/>
+   <set name="Next" type="ordering/Ord"/>
+</node>
+
+<node visible="no">
+   <type name="ordering/Ord"/>
+</node>
+
+<edge style="Bold" visible="yes" weight="10">
+   <relation name="owned"> <type name="env/Fork"/> <type name="env/Philosopher"/> </relation>
+</edge>
+
+<edge visible="yes">
+   <relation name="left"> <type name="env/Fork"/> <type name="env/Philosopher"/> </relation>
+   <relation name="leftFork"> <type name="env/Philosopher"/> <type name="env/Fork"/> </relation>
+</edge>
+
+</view>
+
+</alloy>
